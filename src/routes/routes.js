@@ -56,8 +56,19 @@ const App = () => {
                         path="/employees"
                         exact
                     />
+                    <PrivateRoute
+                        restricted={true}
+                        component={Home}
+                        path="/products"
+                        exact
+                    />
+                    <PrivateRoute
+                        restricted={true}
+                        component={Home}
+                        path="/reports"
+                        exact
+                    />
 
-                    <PrivateRoute component={Login} path="*" />
                     <Route path="*" component={Login} />
                 </Switch>
             </Suspense>

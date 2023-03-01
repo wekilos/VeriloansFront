@@ -1,11 +1,31 @@
 import React, { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 import dash from "../../images/dash.png";
 import "../../css/main.css";
 import "../../css/mdb.min.css";
 import "../../css/tailwind.css";
+import { axiosInstance } from "../../utils/axiosIntance";
+import { TextField } from "@mui/material";
 const Login = () => {
+    const history = useHistory();
     const [msg, setMsg] = useState(false);
+    const [data, setData] = useState({ username: "", password: "" });
+    const login = (e) => {
+        axiosInstance
+            .post("/api/employee/login", data)
+            .then((data) => {
+                console.log(data.data);
+                if (!data.data.login) {
+                    setMsg("Login ýa-da paroly ýalňyş girizdiňiz !");
+                } else {
+                    localStorage.setItem("userData", JSON.stringify(data.data));
+                    history.push({ pathname: "/home" });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <div className="flex h-screen">
             <div className="w-1/2 relative bg-primary-light text-white pl-auto pr-auto pt-[75px] ">
@@ -38,32 +58,43 @@ const Login = () => {
                                 className="bg-rose-100 rounded-lg py-2 px-6  text-base text-rose-500 mb-3"
                                 role="alert"
                             >
-                                message
+                                {msg}
                             </div>
                         </div>
                     )}
-                    <form action="{% url 'accounts:login' %}" method="post">
+                    <div>
                         <div className="form-outline mt-4">
-                            <input
-                                type="text"
-                                name="username"
-                                className="form-control "
-                                style={{ border: "1px solid #efefef" }}
+                            <TextField
+                                className="h-[42px] font-roboto w-full border-[#efefef]"
+                                id="outlined-basic"
+                                label="Login"
+                                variant="outlined"
+                                size="small"
+                                value={data.username}
+                                onChange={(e) =>
+                                    setData({
+                                        ...data,
+                                        username: e.target.value,
+                                    })
+                                }
                             />
-                            <label className="form-label" for="typeText">
-                                Login
-                            </label>
                         </div>
                         <div className="form-outline my-8">
-                            <input
+                            <TextField
+                                className="h-[42px] font-roboto w-full border-[#efefef]"
+                                id="outlined-basic"
+                                label="Parol"
+                                variant="outlined"
+                                size="small"
                                 type="password"
-                                name="password"
-                                className="form-control"
-                                style={{ border: "1px solid #efefef" }}
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData({
+                                        ...data,
+                                        password: e.target.value,
+                                    })
+                                }
                             />
-                            <label className="form-label" for="typeText">
-                                Parol
-                            </label>
                         </div>
                         {false && (
                             <div className="select w-full border {% if messages %} border-2 border-rose-500">
@@ -81,12 +112,12 @@ const Login = () => {
                             </div>
                         )}
                         <button
-                            type="submit"
+                            onClick={() => login()}
                             className="btn vl-btn w-full justify-center mt-8"
                         >
                             Login
                         </button>
-                    </form>
+                    </div>
                 </div>
                 <span className="sb-1 text-black x-center pb-8 bottom-0">
                     Powered by Asmanoky

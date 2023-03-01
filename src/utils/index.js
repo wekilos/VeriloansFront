@@ -1,31 +1,28 @@
-
-
 export const logout = () => {
-  
-  localStorage.removeItem("userData");
+    localStorage.removeItem("userData");
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("userData")) {
-    var data = JSON.parse(localStorage.getItem("userData"));
-    if (data.token) {
-      return true;
-    } else {
-      // localStorage.removeItem("sebetProfile");
+    if (localStorage.getItem("userData")) {
+        var data = JSON.parse(localStorage.getItem("userData"));
+        if (data.token) {
+            return true;
+        } else {
+            // localStorage.removeItem("sebetProfile");
+        }
     }
-  }
-  return false;
+    return false;
 };
 
 export const isLoginAdmin = () => {
-  if (localStorage.getItem("userData")) {
-    var data = JSON.parse(localStorage.getItem("userData"));
-    if (data.permission && data.token) {
-      return true;
+    if (localStorage.getItem("userData")) {
+        var data = JSON.parse(localStorage.getItem("userData"));
+        if (data.token) {
+            return true;
+        } else {
+            return false;
+        }
     } else {
-      // localStorage.removeItem("sebetProfile");
+        return false;
     }
-  } else {
-    return false;
-  }
 };
