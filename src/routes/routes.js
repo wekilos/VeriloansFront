@@ -7,6 +7,7 @@ import {
     Home,
     Loans,
     Login,
+    Products,
     Stores,
 } from "../pages/index";
 import { Loading } from "../components/loading";
@@ -58,7 +59,7 @@ const App = () => {
                     />
                     <PrivateRoute
                         restricted={true}
-                        component={Home}
+                        component={Products}
                         path="/products"
                         exact
                     />
